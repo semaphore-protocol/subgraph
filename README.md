@@ -1,5 +1,6 @@
 <p align="center">
     <h1 align="center">
+        <img width="40" src="https://github.com/semaphore-protocol/website/blob/main/static/img/semaphore-icon.svg">  
         Semaphore subgraph
     </h1>
 </p>
