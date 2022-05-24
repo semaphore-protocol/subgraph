@@ -2,7 +2,6 @@
     <h1 align="center">
         Semaphore subgraph
     </h1>
-    <p align="center">Semaphore subgraph definition (The Graph).</p>
 </p>
 
 <p align="center">
@@ -38,11 +37,14 @@
     </h4>
 </div>
 
+| The Graph is an indexing protocol for querying networks like Ethereum and IPFS. Our subgraphs allow you to get data from the [`Semaphore.sol`](https://github.com/semaphore-protocol/semaphore/blob/main/contracts/Semaphore.sol) smart contract. |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+## Networks
+
 | Kovan                                                                                                     | Goerli                                                                                                      | Arbitrum One |
 | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ |
 | [semaphore-protocol/kovan](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/kovan) | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli) |              |
-
----
 
 ## Install
 
@@ -58,7 +60,7 @@ $ yarn # or `npm i`
 
 The subgraph definition consists of a few files:
 
--   `subgraph.yaml`: a YAML file containing the subgraph manifest,
+-   `subgraph.template.yaml`: a YAML file containing the subgraph manifest,
 -   `schema.graphql`: a GraphQL schema that defines what data is stored for the subgraph, and how to query it via GraphQL,
 -   `src/mappings.ts`: AssemblyScript code that translates from the event data to the entities defined in the schema.
 
