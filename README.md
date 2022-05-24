@@ -8,6 +8,9 @@
     <a href="https://github.com/semaphore-protocol" target="_blank">
         <img src="https://img.shields.io/badge/project-Semaphore-blue.svg?style=flat-square">
     </a>
+    <a href="https://github.com/semaphore-protocol/subgraph/blob/main/LICENSE">
+        <img alt="Github license" src="https://img.shields.io/github/license/semaphore-protocol/subgraph.svg?style=flat-square">
+    </a>
     <a href="https://eslint.org/" target="_blank">
         <img alt="Linter eslint" src="https://img.shields.io/badge/linter-eslint-8080f2?style=flat-square&logo=eslint">
     </a>
