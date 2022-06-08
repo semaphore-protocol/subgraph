@@ -42,12 +42,12 @@
 </div>
 
 | The Graph is an indexing protocol for querying networks like Ethereum and IPFS. Our subgraphs allow you to get data from the [`Semaphore.sol`](https://github.com/semaphore-protocol/semaphore/blob/main/contracts/Semaphore.sol) smart contract. |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Networks
 
-| Kovan                                                                                                     | Goerli                                                                                                      | Arbitrum One |
-| --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ |
+| Kovan                                                                                             | Goerli                                                                                              | Arbitrum One |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------ |
 | [semaphore-protocol/kovan](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/kovan) | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli) |              |
 
 ## 🛠 Install
@@ -91,7 +91,6 @@ or to automatically format the code:
 ```bash
 yarn prettier:write
 ```
-
 
 ### Code generation
 
