@@ -23,11 +23,11 @@
 
 <div align="center">
     <h4>
-        <a href="https://github.com/semaphore-protocol/semaphore/blob/main/CONTRIBUTING.md">
+        <a href="./CONTRIBUTING.md">
             👥 Contributing
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="https://github.com/semaphore-protocol/semaphore/blob/main/CODE_OF_CONDUCT.md">
+        <a href="./CODE_OF_CONDUCT.md">
             🤝 Code of conduct
         </a>
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -50,14 +50,18 @@
 | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------ |
 | [semaphore-protocol/kovan](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/kovan) | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli) |              |
 
-## Install
+## 🛠 Install
 
-Clone this repository and install the dependencies:
+Clone this repository:
 
 ```bash
-$ git clone https://github.com/semaphore-protocols/subgraph.git
-$ cd subgraph
-$ yarn # or `npm i`
+git clone https://github.com/semaphore-protocol/subgraph.git
+```
+
+and install the dependencies:
+
+```bash
+cd subgraph && yarn
 ```
 
 ## Usage
@@ -68,13 +72,26 @@ The subgraph definition consists of a few files:
 -   `schema.graphql`: a GraphQL schema that defines what data is stored for the subgraph, and how to query it via GraphQL,
 -   `src/mappings.ts`: AssemblyScript code that translates from the event data to the entities defined in the schema.
 
-### Lint
+### Code quality and formatting
 
-Lint the `src` AssemblyScript code:
+Run [ESLint](https://eslint.org/) to analyze the code and catch bugs:
 
 ```bash
 yarn lint
 ```
+
+Run [Prettier](https://prettier.io/) to check formatting rules:
+
+```bash
+yarn prettier
+```
+
+or to automatically format the code:
+
+```bash
+yarn prettier:write
+```
+
 
 ### Code generation
 
