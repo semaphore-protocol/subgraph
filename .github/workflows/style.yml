@@ -34,11 +34,11 @@ jobs:
             - name: Install dependencies
               run: YARN_CHECKSUM_BEHAVIOR=ignore yarn
 
+            - name: Generate AssemblyScript types
+              run: yarn codegen
+
             - name: Run Prettier
               run: yarn prettier
 
             - name: Run Eslint
               run: yarn lint
-
-            - name: Build libraries
-              run: yarn codegen && yarn build
