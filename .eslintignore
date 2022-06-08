@@ -4,13 +4,6 @@ package-lock.json
 yarn.lock
 .yarn
 
-# testing
-coverage
-coverage.json
-
-# docs
-docs
-
 # production
 dist
 build
