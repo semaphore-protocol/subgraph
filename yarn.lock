@@ -607,17 +607,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/experimental-utils@npm:^5.0.0":
-  version: 5.27.1
-  resolution: "@typescript-eslint/experimental-utils@npm:5.27.1"
-  dependencies:
-    "@typescript-eslint/utils": 5.27.1
-  peerDependencies:
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  checksum: 180c1dc79b5c0e954eb9ab9c449eec3a5a808f3c5b21ead9661feb542e41c186f49c6da42a7197c2c6e2614a71dadb328ff10e2eaf87bfc317fb03de02e16c8f
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/parser@npm:^5.9.1":
   version: 5.27.1
   resolution: "@typescript-eslint/parser@npm:5.27.1"
@@ -2491,23 +2480,6 @@ __metadata:
   peerDependencies:
     eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
   checksum: 0bf77ad80339554481eafa2b1967449e1f816b94c7a6f9614ce33fb4083c4e6c050f10d241dd50b4975d47922880a34de1e42ea9d8e6fd663ebb768baa67e655
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-jest@npm:^25.7.0":
-  version: 25.7.0
-  resolution: "eslint-plugin-jest@npm:25.7.0"
-  dependencies:
-    "@typescript-eslint/experimental-utils": ^5.0.0
-  peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^4.0.0 || ^5.0.0
-    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-  peerDependenciesMeta:
-    "@typescript-eslint/eslint-plugin":
-      optional: true
-    jest:
-      optional: true
-  checksum: fc6da96131f4cbf33d15ef911ec8e600ccd71deb97d73c0ca340427cef7b01ff41a797e2e7d1e351abf97321a46ed0c0acff5ee8eeedac94961dd6dad1f718a9
   languageName: node
   linkType: hard
 
@@ -6340,7 +6312,6 @@ __metadata:
     eslint-config-airbnb-typescript: ^16.1.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-import: ^2.25.2
-    eslint-plugin-jest: ^25.7.0
     lint-staged: ^11.1.2
     mustache: ^4.2.0
     prettier: ^2.3.2
