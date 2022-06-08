@@ -15,6 +15,7 @@ docs
 dist
 build
 generated
+subgraph.template.yaml
 
 # misc
 .DS_Store

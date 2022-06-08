@@ -6,11 +6,11 @@ schema:
 dataSources:
     - kind: ethereum/contract
       name: Semaphore
-      network: { { network } }
+      network: {{ network }}
       source:
           address: "{{address}}"
           abi: Semaphore
-          startBlock: { { startBlock } }
+          startBlock: {{ startBlock }}
       mapping:
           kind: ethereum/events
           apiVersion: 0.0.5
