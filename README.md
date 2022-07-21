@@ -50,9 +50,9 @@
 
 ## Networks
 
-| Kovan                                                                                             | Goerli                                                                                              | Arbitrum One |
-| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------ |
-| [semaphore-protocol/kovan](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/kovan) | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli) |              |
+| Kovan                                                                                             | Goerli                                                                                              | Arbitrum One                                                                                            |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [semaphore-protocol/kovan](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/kovan) | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli) | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum) |
 
 ## 🛠 Install
 
@@ -120,4 +120,6 @@ Deploy the subgraph to the [hosted service](https://thegraph.com/docs/hostedserv
 yarn deploy:kovan
 // or
 yarn deploy:goerli
+// or
+yarn deploy:arbitrum
 ```
