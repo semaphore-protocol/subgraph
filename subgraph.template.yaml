@@ -30,4 +30,6 @@ dataSources:
                 handler: addMember
               - event: MemberRemoved(indexed uint256,uint256,uint256)
                 handler: removeMember
+              - event: ProofVerified(indexed uint256,bytes32)
+                handler: addVerifiedProof
           file: ./src/mapping.ts

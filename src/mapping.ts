@@ -1,6 +1,6 @@
 import { ByteArray, log } from "@graphprotocol/graph-ts"
-import { GroupAdminUpdated, GroupCreated, MemberAdded, MemberRemoved } from "../generated/Semaphore/Semaphore"
-import { Member, Group } from "../generated/schema"
+import { GroupAdminUpdated, GroupCreated, MemberAdded, MemberRemoved, ProofVerified } from "../generated/Semaphore/Semaphore"
+import { Member, Group, VerifiedProof } from "../generated/schema"
 import { concat, hash } from "./utils"
 
 /**
@@ -18,6 +18,7 @@ export function createGroup(event: GroupCreated): void {
     group.zeroValue = event.params.zeroValue
     group.size = 0
     group.numberOfLeaves = 0
+    group.verifiedProofsCount = 0;
 
     group.save()
 
@@ -120,4 +121,40 @@ export function removeMember(event: MemberRemoved): void {
             ])
         }
     }
+}
+
+/**
+ * Adds a verified proof in a group.
+ * @param event Ethereum event emitted when a proof has been verified.
+ */
+export function addVerifiedProof(event: ProofVerified): void {
+    log.debug(`ProofVerified event block {}`, [event.block.number.toString()])
+
+    const group = Group.load(event.params.groupId.toString())
+    if (!group) return;
+
+    const proofIndex = group.verifiedProofsCount;
+    const verifiedProofId = hash(
+        concat(ByteArray.fromI32(proofIndex), ByteArray.fromBigInt(event.params.groupId))
+    );
+
+    const  verifiedProof = new VerifiedProof(verifiedProofId);
+
+    log.info(
+        "Adding verified proof with signal '{}' in the onchain group '{}'",
+        [event.params.signal.toHexString(), event.params.groupId.toString()]
+    )
+
+    verifiedProof.signal = event.params.signal;
+    verifiedProof.group = group.id;
+
+    verifiedProof.save();
+
+    group.verifiedProofsCount += 1;
+    group.save();
+
+    log.info(
+        "Verified proof with signal '{}' in the onchain group '{}' has been added",
+        [event.params.signal.toHexString(), event.params.groupId.toString()]
+    )
 }
