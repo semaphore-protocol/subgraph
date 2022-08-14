@@ -21,5 +21,7 @@ type Member @entity {
 type VerifiedProof @entity {
     id: ID!
     signal: Bytes!
+    index: Int!
+    timestamp: BigInt!
     group: Group!
 }

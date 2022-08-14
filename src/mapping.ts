@@ -133,9 +133,10 @@ export function addVerifiedProof(event: ProofVerified): void {
     const group = Group.load(event.params.groupId.toString())
     if (!group) return;
 
+    const proofIndex = group.verifiedProofsCount;
     const verifiedProofId = hash(
         concat(
-            ByteArray.fromI32(group.verifiedProofsCount),
+            ByteArray.fromI32(proofIndex),
             concat(event.params.signal,ByteArray. fromBigInt(event.params.groupId))
         )
     );
@@ -148,6 +149,8 @@ export function addVerifiedProof(event: ProofVerified): void {
     )
 
     verifiedProof.signal = event.params.signal;
+    verifiedProof.timestamp = event.block.timestamp;
+    verifiedProof.index = proofIndex;
     verifiedProof.group = group.id;
 
     verifiedProof.save();
