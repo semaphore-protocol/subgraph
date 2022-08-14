@@ -18,7 +18,7 @@ export function createGroup(event: GroupCreated): void {
     group.zeroValue = event.params.zeroValue
     group.size = 0
     group.numberOfLeaves = 0
-    group.verifiedProofsCount = 0;
+    group.verifiedProofsCount = 0
 
     group.save()
 
@@ -133,9 +133,11 @@ export function addVerifiedProof(event: ProofVerified): void {
     const group = Group.load(event.params.groupId.toString())
     if (!group) return;
 
-    const proofIndex = group.verifiedProofsCount;
     const verifiedProofId = hash(
-        concat(ByteArray.fromI32(proofIndex), ByteArray.fromBigInt(event.params.groupId))
+        concat(
+            ByteArray.fromI32(group.verifiedProofsCount),
+            concat(event.params.signal,ByteArray. fromBigInt(event.params.groupId))
+        )
     );
 
     const  verifiedProof = new VerifiedProof(verifiedProofId);
