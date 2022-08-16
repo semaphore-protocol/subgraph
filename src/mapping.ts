@@ -1,5 +1,11 @@
 import { ByteArray, log } from "@graphprotocol/graph-ts"
-import { GroupAdminUpdated, GroupCreated, MemberAdded, MemberRemoved, ProofVerified } from "../generated/Semaphore/Semaphore"
+import {
+    GroupAdminUpdated,
+    GroupCreated,
+    MemberAdded,
+    MemberRemoved,
+    ProofVerified
+} from "../generated/Semaphore/Semaphore"
 import { Member, Group, VerifiedProof } from "../generated/schema"
 import { concat, hash } from "./utils"
 
@@ -131,35 +137,32 @@ export function addVerifiedProof(event: ProofVerified): void {
     log.debug(`ProofVerified event block {}`, [event.block.number.toString()])
 
     const group = Group.load(event.params.groupId.toString())
-    if (!group) return;
+    if (!group) return
 
-    const proofIndex = group.verifiedProofsCount;
+    const proofIndex = group.verifiedProofsCount
     const verifiedProofId = hash(
-        concat(
-            ByteArray.fromI32(proofIndex),
-            concat(event.params.signal,ByteArray. fromBigInt(event.params.groupId))
-        )
-    );
-
-    const  verifiedProof = new VerifiedProof(verifiedProofId);
-
-    log.info(
-        "Adding verified proof with signal '{}' in the onchain group '{}'",
-        [event.params.signal.toHexString(), event.params.groupId.toString()]
+        concat(ByteArray.fromI32(proofIndex), concat(event.params.signal, ByteArray.fromBigInt(event.params.groupId)))
     )
 
-    verifiedProof.signal = event.params.signal;
-    verifiedProof.timestamp = event.block.timestamp;
-    verifiedProof.index = proofIndex;
-    verifiedProof.group = group.id;
+    const verifiedProof = new VerifiedProof(verifiedProofId)
 
-    verifiedProof.save();
+    log.info("Adding verified proof with signal '{}' in the onchain group '{}'", [
+        event.params.signal.toHexString(),
+        event.params.groupId.toString()
+    ])
 
-    group.verifiedProofsCount += 1;
-    group.save();
+    verifiedProof.signal = event.params.signal
+    verifiedProof.timestamp = event.block.timestamp
+    verifiedProof.index = proofIndex
+    verifiedProof.group = group.id
 
-    log.info(
-        "Verified proof with signal '{}' in the onchain group '{}' has been added",
-        [event.params.signal.toHexString(), event.params.groupId.toString()]
-    )
+    verifiedProof.save()
+
+    group.verifiedProofsCount += 1
+    group.save()
+
+    log.info("Verified proof with signal '{}' in the onchain group '{}' has been added", [
+        event.params.signal.toHexString(),
+        event.params.groupId.toString()
+    ])
 }
