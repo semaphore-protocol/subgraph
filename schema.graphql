@@ -7,11 +7,21 @@ type Group @entity {
     numberOfLeaves: Int!
     admin: Bytes!
     members: [Member!]! @derivedFrom(field: "group")
+    verifiedProofsCount: Int!
+    verifiedProofs: [VerifiedProof!]! @derivedFrom(field: "group")
 }
 
 type Member @entity {
     id: ID!
     identityCommitment: BigInt!
     index: Int!
+    group: Group!
+}
+
+type VerifiedProof @entity {
+    id: ID!
+    signal: Bytes!
+    index: Int!
+    timestamp: BigInt!
     group: Group!
 }
