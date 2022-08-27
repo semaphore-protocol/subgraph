@@ -4,10 +4,8 @@ type Group @entity {
     zeroValue: BigInt!
     root: BigInt!
     size: Int!
-    numberOfLeaves: Int!
     admin: Bytes!
     members: [Member!]! @derivedFrom(field: "group")
-    verifiedProofsCount: Int!
     verifiedProofs: [VerifiedProof!]! @derivedFrom(field: "group")
 }
 
@@ -21,7 +19,6 @@ type Member @entity {
 type VerifiedProof @entity {
     id: ID!
     signal: Bytes!
-    index: Int!
     timestamp: BigInt!
     group: Group!
 }
