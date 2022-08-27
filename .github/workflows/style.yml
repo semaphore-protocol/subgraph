@@ -34,8 +34,8 @@ jobs:
             - name: Install dependencies
               run: YARN_CHECKSUM_BEHAVIOR=ignore yarn
 
-            - name: Prepare configuration for Kovan
-              run: yarn prepare:kovan
+            - name: Prepare configuration for Goerli
+              run: yarn prepare:goerli
 
             - name: Generate AssemblyScript types
               run: yarn codegen
