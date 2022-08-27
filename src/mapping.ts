@@ -137,32 +137,36 @@ export function addVerifiedProof(event: ProofVerified): void {
     log.debug(`ProofVerified event block {}`, [event.block.number.toString()])
 
     const group = Group.load(event.params.groupId.toString())
-    if (!group) return
 
-    const proofIndex = group.verifiedProofsCount
-    const verifiedProofId = hash(
-        concat(ByteArray.fromI32(proofIndex), concat(event.params.signal, ByteArray.fromBigInt(event.params.groupId)))
-    )
+    if (group) {
+        const proofIndex = group.verifiedProofsCount
+        const verifiedProofId = hash(
+            concat(
+                ByteArray.fromI32(proofIndex),
+                concat(event.params.signal, ByteArray.fromBigInt(event.params.groupId))
+            )
+        )
 
-    const verifiedProof = new VerifiedProof(verifiedProofId)
+        const verifiedProof = new VerifiedProof(verifiedProofId)
 
-    log.info("Adding verified proof with signal '{}' in the onchain group '{}'", [
-        event.params.signal.toHexString(),
-        event.params.groupId.toString()
-    ])
+        log.info("Adding verified proof with signal '{}' in the onchain group '{}'", [
+            event.params.signal.toHexString(),
+            event.params.groupId.toString()
+        ])
 
-    verifiedProof.signal = event.params.signal
-    verifiedProof.timestamp = event.block.timestamp
-    verifiedProof.index = proofIndex
-    verifiedProof.group = group.id
+        verifiedProof.signal = event.params.signal
+        verifiedProof.timestamp = event.block.timestamp
+        verifiedProof.index = proofIndex
+        verifiedProof.group = group.id
 
-    verifiedProof.save()
+        verifiedProof.save()
 
-    group.verifiedProofsCount += 1
-    group.save()
+        group.verifiedProofsCount += 1
+        group.save()
 
-    log.info("Verified proof with signal '{}' in the onchain group '{}' has been added", [
-        event.params.signal.toHexString(),
-        event.params.groupId.toString()
-    ])
+        log.info("Verified proof with signal '{}' in the onchain group '{}' has been added", [
+            event.params.signal.toHexString(),
+            event.params.groupId.toString()
+        ])
+    }
 }
