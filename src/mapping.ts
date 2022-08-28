@@ -63,21 +63,13 @@ export function addMember(event: MemberAdded): void {
             concat(ByteArray.fromBigInt(event.params.identityCommitment), ByteArray.fromBigInt(event.params.groupId))
         )
 
-        // If there is a removed member with the same id it updates its id.
-        const removedMember = Member.load(memberId)
-
-        if (removedMember !== null) {
-            removedMember.id = hash(concat(ByteArray.fromHexString(memberId), ByteArray.fromI32(removedMember.index)))
-
-            removedMember.save()
-        }
-
         const member = new Member(memberId)
 
         log.info("Adding member '{}' in the onchain group '{}'", [member.id, group.id])
 
         member.group = group.id
         member.identityCommitment = event.params.identityCommitment
+        member.timestamp = event.block.timestamp
 
         member.save()
 
@@ -108,6 +100,7 @@ export function removeMember(event: MemberRemoved): void {
         if (member) {
             log.info("Removing member '{}' from the onchain group '{}'", [member.id, event.params.groupId.toString()])
 
+            member.id = hash(concat(ByteArray.fromHexString(memberId), ByteArray.fromBigInt(member.timestamp)))
             member.identityCommitment = group.zeroValue
 
             member.save()
