@@ -22,7 +22,8 @@ export function createGroup(event: GroupCreated): void {
 
     group.depth = event.params.depth
     group.zeroValue = event.params.zeroValue
-    group.size = 0
+    group.timestamp = event.block.timestamp
+    group.numberOfLeaves = 0
 
     group.save()
 
@@ -70,11 +71,12 @@ export function addMember(event: MemberAdded): void {
         member.group = group.id
         member.identityCommitment = event.params.identityCommitment
         member.timestamp = event.block.timestamp
+        member.index = group.numberOfLeaves
 
         member.save()
 
         group.root = event.params.root
-        group.size += 1
+        group.numberOfLeaves += 1
 
         group.save()
 
@@ -106,7 +108,6 @@ export function removeMember(event: MemberRemoved): void {
             member.save()
 
             group.root = event.params.root
-            group.size -= 1
 
             group.save()
 

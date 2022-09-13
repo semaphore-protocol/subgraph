@@ -3,16 +3,18 @@ type Group @entity {
     depth: Int!
     zeroValue: BigInt!
     root: BigInt!
-    size: Int!
+    numberOfLeaves: Int!
+    timestamp: BigInt!
     admin: Bytes!
-    members: [Member!]! @derivedFrom(field: "group")
-    verifiedProofs: [VerifiedProof!]! @derivedFrom(field: "group")
+    members: [Member!] @derivedFrom(field: "group")
+    verifiedProofs: [VerifiedProof!] @derivedFrom(field: "group")
 }
 
 type Member @entity {
     id: ID!
     identityCommitment: BigInt!
     timestamp: BigInt!
+    index: Int!
     group: Group!
 }
 
