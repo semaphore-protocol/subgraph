@@ -60,9 +60,13 @@ export function addMember(event: MemberAdded): void {
     const group = Group.load(event.params.groupId.toString())
 
     if (group) {
-        const memberId = hash(
+        let memberId = hash(
             concat(ByteArray.fromBigInt(event.params.identityCommitment), ByteArray.fromBigInt(event.params.groupId))
         )
+
+        while (Member.load(memberId)) {
+            memberId = hash(ByteArray.fromHexString(memberId))
+        }
 
         const member = new Member(memberId)
 
@@ -97,12 +101,18 @@ export function removeMember(event: MemberRemoved): void {
         const memberId = hash(
             concat(ByteArray.fromBigInt(event.params.identityCommitment), ByteArray.fromBigInt(event.params.groupId))
         )
-        const member = Member.load(memberId)
+
+        let member = Member.load(memberId)
+        let tmpMember = member
+
+        while (tmpMember) {
+            member = tmpMember
+            tmpMember = Member.load(hash(ByteArray.fromHexString(member.id)))
+        }
 
         if (member) {
             log.info("Removing member '{}' from the onchain group '{}'", [member.id, event.params.groupId.toString()])
 
-            member.id = hash(concat(ByteArray.fromHexString(memberId), ByteArray.fromBigInt(member.timestamp)))
             member.identityCommitment = group.zeroValue
 
             member.save()
