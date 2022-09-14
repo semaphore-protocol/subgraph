@@ -2,10 +2,10 @@ type Group @entity {
     id: ID!
     depth: BigInt!
     zeroValue: BigInt!
-    root: BigInt!
+    root: BigInt
     numberOfLeaves: Int!
     timestamp: BigInt!
-    admin: Bytes!
+    admin: Bytes
     members: [Member!] @derivedFrom(field: "group")
     verifiedProofs: [VerifiedProof!] @derivedFrom(field: "group")
 }
