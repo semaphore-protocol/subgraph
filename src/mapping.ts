@@ -4,6 +4,7 @@ import {
     GroupCreated,
     MemberAdded,
     MemberRemoved,
+    MemberUpdated,
     ProofVerified
 } from "../generated/Semaphore/Semaphore"
 import { Member, Group, VerifiedProof } from "../generated/schema"
@@ -51,7 +52,7 @@ export function updateGroupAdmin(event: GroupAdminUpdated): void {
 }
 
 /**
- * Adds a member in a group.
+ * Adds a member to a group.
  * @param event Ethereum event emitted when a member is added to a group.
  */
 export function addMember(event: MemberAdded): void {
@@ -80,6 +81,40 @@ export function addMember(event: MemberAdded): void {
         group.save()
 
         log.info("Member '{}' of the onchain group '{}' has been added", [member.id, group.id])
+    }
+}
+
+/**
+ * Updates a member in a group.
+ * @param event Ethereum event emitted when a member is removed from a group.
+ */
+export function updateMember(event: MemberUpdated): void {
+    log.debug(`MemberUpdated event block {}`, [event.block.number.toString()])
+
+    const group = Group.load(event.params.groupId.toString())
+
+    if (group) {
+        const memberId = hash(
+            concat(ByteArray.fromBigInt(event.params.index), ByteArray.fromBigInt(event.params.groupId))
+        )
+        const member = Member.load(memberId)
+
+        if (member) {
+            log.info("Updating member '{}' from the onchain group '{}'", [member.id, event.params.groupId.toString()])
+
+            member.identityCommitment = event.params.newIdentityCommitment
+
+            member.save()
+
+            group.root = event.params.merkleTreeRoot
+
+            group.save()
+
+            log.info("Member '{}' of the onchain group '{}' has been removed", [
+                member.id,
+                event.params.groupId.toString()
+            ])
+        }
     }
 }
 
