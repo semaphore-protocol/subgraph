@@ -20,7 +20,7 @@ export function createGroup(event: GroupCreated): void {
 
     log.info("Creating group '{}'", [group.id])
 
-    group.depth = event.params.depth
+    group.depth = event.params.merkleTreeDepth
     group.zeroValue = event.params.zeroValue
     group.timestamp = event.block.timestamp
     group.numberOfLeaves = 0
@@ -60,14 +60,9 @@ export function addMember(event: MemberAdded): void {
     const group = Group.load(event.params.groupId.toString())
 
     if (group) {
-        let memberId = hash(
-            concat(ByteArray.fromBigInt(event.params.identityCommitment), ByteArray.fromBigInt(event.params.groupId))
+        const memberId = hash(
+            concat(ByteArray.fromBigInt(event.params.index), ByteArray.fromBigInt(event.params.groupId))
         )
-
-        while (Member.load(memberId)) {
-            memberId = hash(ByteArray.fromHexString(memberId))
-        }
-
         const member = new Member(memberId)
 
         log.info("Adding member '{}' in the onchain group '{}'", [member.id, group.id])
@@ -79,7 +74,7 @@ export function addMember(event: MemberAdded): void {
 
         member.save()
 
-        group.root = event.params.root
+        group.root = event.params.merkleTreeRoot
         group.numberOfLeaves += 1
 
         group.save()
@@ -99,16 +94,9 @@ export function removeMember(event: MemberRemoved): void {
 
     if (group) {
         const memberId = hash(
-            concat(ByteArray.fromBigInt(event.params.identityCommitment), ByteArray.fromBigInt(event.params.groupId))
+            concat(ByteArray.fromBigInt(event.params.index), ByteArray.fromBigInt(event.params.groupId))
         )
-
-        let member = Member.load(memberId)
-        let tmpMember = member
-
-        while (tmpMember) {
-            member = tmpMember
-            tmpMember = Member.load(hash(ByteArray.fromHexString(member.id)))
-        }
+        const member = Member.load(memberId)
 
         if (member) {
             log.info("Removing member '{}' from the onchain group '{}'", [member.id, event.params.groupId.toString()])
@@ -117,7 +105,7 @@ export function removeMember(event: MemberRemoved): void {
 
             member.save()
 
-            group.root = event.params.root
+            group.root = event.params.merkleTreeRoot
 
             group.save()
 

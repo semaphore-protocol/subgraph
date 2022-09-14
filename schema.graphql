@@ -1,6 +1,6 @@
 type Group @entity {
     id: ID!
-    depth: Int!
+    depth: BigInt!
     zeroValue: BigInt!
     root: BigInt!
     numberOfLeaves: Int!

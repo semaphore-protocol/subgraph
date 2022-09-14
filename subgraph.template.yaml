@@ -1,4 +1,4 @@
-specVersion: 0.0.4
+specVersion: 0.0.5
 description: Semaphore subgraph definition (The Graph).
 repository: https://github.com/semaphore-protocol/subgraph
 schema:
@@ -13,7 +13,7 @@ dataSources:
           startBlock: {{ startBlock }}
       mapping:
           kind: ethereum/events
-          apiVersion: 0.0.5
+          apiVersion: 0.0.7
           language: wasm/assemblyscript
           entities:
               - Group
@@ -22,14 +22,15 @@ dataSources:
               - name: Semaphore
                 file: ./abis/Semaphore.json
           eventHandlers:
-              - event: GroupCreated(indexed uint256,uint8,uint256)
+              - event: GroupCreated(indexed uint256,uint256,uint256)
                 handler: createGroup
               - event: GroupAdminUpdated(indexed uint256,indexed address,indexed address)
                 handler: updateGroupAdmin
-              - event: MemberAdded(indexed uint256,uint256,uint256)
+              - event: MemberAdded(indexed uint256,uint256,uint256,uint256)
                 handler: addMember
-              - event: MemberRemoved(indexed uint256,uint256,uint256)
+              - event: MemberRemoved(indexed uint256,uint256,uint256,uint256)
                 handler: removeMember
+                receipt: true
               - event: ProofVerified(indexed uint256,bytes32)
                 handler: addVerifiedProof
           file: ./src/mapping.ts
