@@ -47,7 +47,7 @@ export function updateGroupAdmin(event: GroupAdminUpdated): void {
 
         group.save()
 
-        log.info("Admin '{}' of the group '{}' has been updated ", [group.admin.toString(), group.id])
+        log.info("Admin '{}' of the group '{}' has been updated ", [group.admin!.toString(), group.id])
     }
 }
 
@@ -100,7 +100,7 @@ export function updateMember(event: MemberUpdated): void {
         const member = Member.load(memberId)
 
         if (member) {
-            log.info("Updating member '{}' from the onchain group '{}'", [member.id, event.params.groupId.toString()])
+            log.info("Updating member '{}' from the onchain group '{}'", [member.id, group.id])
 
             member.identityCommitment = event.params.newIdentityCommitment
 
@@ -110,10 +110,7 @@ export function updateMember(event: MemberUpdated): void {
 
             group.save()
 
-            log.info("Member '{}' of the onchain group '{}' has been removed", [
-                member.id,
-                event.params.groupId.toString()
-            ])
+            log.info("Member '{}' of the onchain group '{}' has been removed", [member.id, group.id])
         }
     }
 }
@@ -134,7 +131,7 @@ export function removeMember(event: MemberRemoved): void {
         const member = Member.load(memberId)
 
         if (member) {
-            log.info("Removing member '{}' from the onchain group '{}'", [member.id, event.params.groupId.toString()])
+            log.info("Removing member '{}' from the onchain group '{}'", [member.id, group.id])
 
             member.identityCommitment = group.zeroValue
 
@@ -144,10 +141,7 @@ export function removeMember(event: MemberRemoved): void {
 
             group.save()
 
-            log.info("Member '{}' of the onchain group '{}' has been removed", [
-                member.id,
-                event.params.groupId.toString()
-            ])
+            log.info("Member '{}' of the onchain group '{}' has been removed", [member.id, group.id])
         }
     }
 }
@@ -168,7 +162,7 @@ export function addVerifiedProof(event: ProofVerified): void {
 
         log.info("Adding verified proof with signal '{}' in the onchain group '{}'", [
             event.params.signal.toHexString(),
-            event.params.groupId.toString()
+            group.id
         ])
 
         verifiedProof.group = group.id
@@ -181,7 +175,7 @@ export function addVerifiedProof(event: ProofVerified): void {
 
         log.info("Verified proof with signal '{}' in the onchain group '{}' has been added", [
             event.params.signal.toHexString(),
-            event.params.groupId.toString()
+            group.id
         ])
     }
 }
