@@ -1,9 +1,15 @@
-type Group @entity {
+type MerkleTree @entity {
     id: ID!
     depth: BigInt!
-    zeroValue: BigInt!
     root: BigInt
+    zeroValue: BigInt!
     numberOfLeaves: Int!
+    group: Group!
+}
+
+type Group @entity {
+    id: ID!
+    merkleTree: MerkleTree!
     timestamp: BigInt!
     admin: Bytes
     members: [Member!] @derivedFrom(field: "group")
@@ -21,6 +27,9 @@ type Member @entity {
 type VerifiedProof @entity {
     id: ID!
     signal: Bytes!
+    merkleTreeRoot: BigInt
+    nullifierHash: BigInt
+    externalNullifier: BigInt
     timestamp: BigInt!
     group: Group!
 }

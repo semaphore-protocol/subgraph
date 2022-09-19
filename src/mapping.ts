@@ -7,7 +7,7 @@ import {
     MemberUpdated,
     ProofVerified
 } from "../generated/Semaphore/Semaphore"
-import { Member, Group, VerifiedProof } from "../generated/schema"
+import { Member, Group, VerifiedProof, MerkleTree } from "../generated/schema"
 import { concat, hash } from "./utils"
 
 /**
@@ -18,14 +18,19 @@ export function createGroup(event: GroupCreated): void {
     log.debug(`GroupCreated event block: {}`, [event.block.number.toString()])
 
     const group = new Group(event.params.groupId.toString())
+    const merkleTree = new MerkleTree(event.params.groupId.toString())
 
     log.info("Creating group '{}'", [group.id])
 
-    group.depth = event.params.merkleTreeDepth
-    group.zeroValue = event.params.zeroValue
-    group.timestamp = event.block.timestamp
-    group.numberOfLeaves = 0
+    merkleTree.depth = event.params.merkleTreeDepth
+    merkleTree.zeroValue = event.params.zeroValue
+    merkleTree.numberOfLeaves = 0
+    merkleTree.group = group.id
 
+    group.timestamp = event.block.timestamp
+    group.merkleTree = merkleTree.id
+
+    merkleTree.save()
     group.save()
 
     log.info("Group '{}' has been created", [group.id])
@@ -58,29 +63,29 @@ export function updateGroupAdmin(event: GroupAdminUpdated): void {
 export function addMember(event: MemberAdded): void {
     log.debug(`MemberAdded event block {}`, [event.block.number.toString()])
 
-    const group = Group.load(event.params.groupId.toString())
+    const merkleTree = MerkleTree.load(event.params.groupId.toString())
 
-    if (group) {
+    if (merkleTree) {
         const memberId = hash(
             concat(ByteArray.fromBigInt(event.params.index), ByteArray.fromBigInt(event.params.groupId))
         )
         const member = new Member(memberId)
 
-        log.info("Adding member '{}' in the onchain group '{}'", [member.id, group.id])
+        log.info("Adding member '{}' in the onchain group '{}'", [member.id, merkleTree.group])
 
-        member.group = group.id
+        member.group = merkleTree.group
         member.identityCommitment = event.params.identityCommitment
         member.timestamp = event.block.timestamp
-        member.index = group.numberOfLeaves
+        member.index = merkleTree.numberOfLeaves
 
         member.save()
 
-        group.root = event.params.merkleTreeRoot
-        group.numberOfLeaves += 1
+        merkleTree.root = event.params.merkleTreeRoot
+        merkleTree.numberOfLeaves += 1
 
-        group.save()
+        merkleTree.save()
 
-        log.info("Member '{}' of the onchain group '{}' has been added", [member.id, group.id])
+        log.info("Member '{}' of the onchain group '{}' has been added", [member.id, merkleTree.id])
     }
 }
 
@@ -91,26 +96,26 @@ export function addMember(event: MemberAdded): void {
 export function updateMember(event: MemberUpdated): void {
     log.debug(`MemberUpdated event block {}`, [event.block.number.toString()])
 
-    const group = Group.load(event.params.groupId.toString())
+    const merkleTree = MerkleTree.load(event.params.groupId.toString())
 
-    if (group) {
+    if (merkleTree) {
         const memberId = hash(
             concat(ByteArray.fromBigInt(event.params.index), ByteArray.fromBigInt(event.params.groupId))
         )
         const member = Member.load(memberId)
 
         if (member) {
-            log.info("Updating member '{}' from the onchain group '{}'", [member.id, group.id])
+            log.info("Updating member '{}' from the onchain group '{}'", [member.id, merkleTree.group])
 
             member.identityCommitment = event.params.newIdentityCommitment
 
             member.save()
 
-            group.root = event.params.merkleTreeRoot
+            merkleTree.root = event.params.merkleTreeRoot
 
-            group.save()
+            merkleTree.save()
 
-            log.info("Member '{}' of the onchain group '{}' has been removed", [member.id, group.id])
+            log.info("Member '{}' of the onchain group '{}' has been removed", [member.id, merkleTree.group])
         }
     }
 }
@@ -122,26 +127,26 @@ export function updateMember(event: MemberUpdated): void {
 export function removeMember(event: MemberRemoved): void {
     log.debug(`MemberRemoved event block {}`, [event.block.number.toString()])
 
-    const group = Group.load(event.params.groupId.toString())
+    const merkleTree = MerkleTree.load(event.params.groupId.toString())
 
-    if (group) {
+    if (merkleTree) {
         const memberId = hash(
             concat(ByteArray.fromBigInt(event.params.index), ByteArray.fromBigInt(event.params.groupId))
         )
         const member = Member.load(memberId)
 
         if (member) {
-            log.info("Removing member '{}' from the onchain group '{}'", [member.id, group.id])
+            log.info("Removing member '{}' from the onchain group '{}'", [member.id, merkleTree.group])
 
-            member.identityCommitment = group.zeroValue
+            member.identityCommitment = merkleTree.zeroValue
 
             member.save()
 
-            group.root = event.params.merkleTreeRoot
+            merkleTree.root = event.params.merkleTreeRoot
 
-            group.save()
+            merkleTree.save()
 
-            log.info("Member '{}' of the onchain group '{}' has been removed", [member.id, group.id])
+            log.info("Member '{}' of the onchain group '{}' has been removed", [member.id, merkleTree.group])
         }
     }
 }
@@ -167,6 +172,9 @@ export function addVerifiedProof(event: ProofVerified): void {
 
         verifiedProof.group = group.id
         verifiedProof.signal = event.params.signal
+        verifiedProof.merkleTreeRoot = event.params.merkleTreeRoot
+        verifiedProof.externalNullifier = event.params.externalNullifier
+        verifiedProof.nullifierHash = event.params.nullifierHash
         verifiedProof.timestamp = event.block.timestamp
 
         verifiedProof.save()
