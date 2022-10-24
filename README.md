@@ -50,9 +50,11 @@
 
 ## Networks
 
-| Goerli                                                                                              | Arbitrum One                                                                                            |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli) | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum) |
+| Semaphore version | Goerli                                                                                                            | Arbitrum One                                                                                            |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| v2.0              | N/A                                                                                                               | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum) |
+| v2.5              | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli)               | N/A                                                                                                     |
+| v2.6              | [semaphore-protocol/goerli-5259d3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-5259d3) | N/A                                                                                                     |
 
 ## 🛠 Install
 
@@ -117,7 +119,7 @@ yarn auth <access-token>
 Deploy the subgraph to the [hosted service](https://thegraph.com/docs/hostedservice/deploy-subgraph-hosted):
 
 ```bash
-yarn deploy:goerli
+yarn deploy:goerli semaphore-protocol/goerli-5259d3
 // or
-yarn deploy:arbitrum
+yarn deploy:arbitrum semaphore-protocol/arbitrum-3413d1
 ```
