@@ -50,11 +50,11 @@
 
 ## Networks
 
-| Semaphore version | Goerli                                                                                                            | Arbitrum One                                                                                            |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| v2.0              | N/A                                                                                                               | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum) |
-| v2.5              | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli)               | N/A                                                                                                     |
-| v2.6              | [semaphore-protocol/goerli-5259d3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-5259d3) | N/A                                                                                                     |
+| Semaphore version | Goerli                                                                                                            | Arbitrum One                                                                                                          |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| v2.0              | N/A                                                                                                               | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum)               |
+| v2.5              | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli)               | N/A                                                                                                                   |
+| v2.6              | [semaphore-protocol/goerli-5259d3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-5259d3) | [semaphore-protocol/arbitrum-86337c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-86337c) |
 
 ## 🛠 Install
 
@@ -121,5 +121,5 @@ Deploy the subgraph to the [hosted service](https://thegraph.com/docs/hostedserv
 ```bash
 yarn deploy:goerli semaphore-protocol/goerli-5259d3
 // or
-yarn deploy:arbitrum semaphore-protocol/arbitrum-3413d1
+yarn deploy:arbitrum semaphore-protocol/arbitrum-86337c
 ```
