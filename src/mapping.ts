@@ -161,7 +161,9 @@ export function addVerifiedProof(event: ProofVerified): void {
     const group = Group.load(event.params.groupId.toString())
 
     if (group) {
-        const verifiedProofId = hash(concat(ByteArray.fromBigInt(event.block.timestamp), event.params.signal))
+        const verifiedProofId = hash(
+            concat(ByteArray.fromBigInt(event.block.timestamp), ByteArray.fromBigInt(event.params.signal))
+        )
 
         const verifiedProof = new VerifiedProof(verifiedProofId)
 

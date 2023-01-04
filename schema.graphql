@@ -26,10 +26,10 @@ type Member @entity {
 
 type VerifiedProof @entity {
     id: ID!
-    signal: Bytes!
-    merkleTreeRoot: BigInt
-    nullifierHash: BigInt
-    externalNullifier: BigInt
+    signal: BigInt!
+    merkleTreeRoot: BigInt!
+    nullifierHash: BigInt!
+    externalNullifier: BigInt!
     timestamp: BigInt!
     group: Group!
 }
