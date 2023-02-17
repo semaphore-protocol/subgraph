@@ -13,6 +13,8 @@
         "prepare:arbitrum": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml",
         "deploy:goerli": "yarn prepare:goerli && yarn codegen && graph deploy --product hosted-service",
         "deploy:arbitrum": "yarn prepare:arbitrum && yarn codegen && graph deploy --product hosted-service",
+        "create-local": "graph create sempahore --node http://127.0.0.1:8020",
+        "deploy-local": "npm run create-local && graph deploy sempahore --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
         "lint": "eslint . --ext .js,.ts",
         "prettier": "prettier -c .",
         "prettier:write": "prettier -w .",
