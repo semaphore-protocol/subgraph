@@ -58,7 +58,8 @@
 | v2.0              | N/A                                                                                                               | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum)               |
 | v2.5              | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli)               | N/A                                                                                                                   |
 | v2.6              | [semaphore-protocol/goerli-5259d3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-5259d3) | [semaphore-protocol/arbitrum-86337c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-86337c) |
-| v3                | [semaphore-protocol/goerli-89490c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-89490c) | [semaphore-protocol/arbitrum-72dca3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-72dca3) |
+| v3.x              | [semaphore-protocol/goerli-89490c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-89490c) | [semaphore-protocol/arbitrum-72dca3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-72dca3) |
+| v3.2              | [semaphore-goerli](https://api.studio.thegraph.com/query/14377/semaphore-goerli/v3.2.0)                           | [semaphore-arbitrum](https://api.studio.thegraph.com/query/14377/semaphore-arbitrum/v3.2.0)                           |
 
 ## 🛠 Install
 
@@ -107,7 +108,7 @@ yarn prettier:write
 Generate AssemblyScript types for the subgraph (required every time the schema changes):
 
 ```bash
-yarn codegen
+yarn codegen <network>
 ```
 
 ### Authorization
@@ -120,42 +121,8 @@ yarn auth <access-token>
 
 ### Deploy
 
-Deploy the subgraph to the [hosted service](https://thegraph.com/docs/hostedservice/deploy-subgraph-hosted):
+Deploy the subgraph to the [TheGraph Studio](https://thegraph.com/studio/):
 
 ```bash
-yarn deploy:goerli semaphore-protocol/goerli-5259d3
-// or
-yarn deploy:arbitrum semaphore-protocol/arbitrum-86337c
-```
-
-### Local Development
-
-This is a guide to run TheGraph node locally and build subgraphs based on events from local Ethereum network (like hardhat).
-
-Start services required for TheGraph node by running:
-
-```sh
-docker-compose -f docker-compose-graph.yml up
-```
-
-Start local hardhat node and deploy Sempahore contract:
-
-```sh
-# CWD = /semaphore/packages/contracts
-npx hardhat node
-yarn deploy:semaphore --network localhost
-```
-
-You can now set the deployed contract address in the subgraph.yaml file. Make sure the network is set as `localhost`.
-
-Once subgraph is ready to be published, run the below command to push it to the local TheGraph node:
-
-```sh
-yarn deploy-local
-```
-
-Once the subgraph is published it will start indexing. You can query the subgraph using the GraphQL endpoint:
-
-```
-http://127.0.0.1:8000/subgraphs/name/sempahore/graphql
+yarn deploy <subgraph-name>
 ```
