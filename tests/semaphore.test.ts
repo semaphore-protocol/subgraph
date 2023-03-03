@@ -1,46 +1,156 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { afterAll, assert, beforeAll, clearStore, describe, test } from "matchstick-as/assembly/index"
-import { handleGroupAdminUpdated } from "../src/semaphore"
-import { createGroupAdminUpdatedEvent } from "./semaphore-utils"
+import { Address, BigInt, ByteArray } from "@graphprotocol/graph-ts"
+import { afterAll, assert, clearStore, describe, test } from "matchstick-as/assembly/index"
+import {
+    addMember,
+    addVerifiedProof,
+    createGroup,
+    removeMember,
+    updateGroupAdmin,
+    updateMember
+} from "../src/semaphore"
+import { concat, hash } from "../src/utils"
+import {
+    createGroupAdminUpdatedEvent,
+    createGroupCreatedEvent,
+    createMemberAddedEvent,
+    createMemberRemovedEvent,
+    createMemberUpdatedEvent,
+    createProofVerifiedEvent
+} from "./semaphore-utils"
 
-// Tests structure (matchstick-as >=0.5.0)
-// https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
-
-describe("Describe entity assertions", () => {
-    beforeAll(() => {
-        let groupId = BigInt.fromI32(234)
-        let oldAdmin = Address.fromString("0x0000000000000000000000000000000000000001")
-        let newAdmin = Address.fromString("0x0000000000000000000000000000000000000001")
-        let newGroupAdminUpdatedEvent = createGroupAdminUpdatedEvent(groupId, oldAdmin, newAdmin)
-        handleGroupAdminUpdated(newGroupAdminUpdatedEvent)
-    })
-
+// https://thegraph.com/docs/en/developer/matchstick
+describe("Semaphore subgraph", () => {
     afterAll(() => {
         clearStore()
     })
 
-    // For more test scenarios, see:
-    // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
+    describe("# createGroup", () => {
+        test("Should have created a group", () => {
+            const groupId = BigInt.fromI32(234)
+            const merkleTreeDepth = BigInt.fromI32(20)
+            const zeroValue = BigInt.fromI32(0)
+            const oldAdmin = Address.fromString("0x0000000000000000000000000000000000000000")
+            const newAdmin = Address.fromString("0x0000000000000000000000000000000000000001")
 
-    test("GroupAdminUpdated created and stored", () => {
-        assert.entityCount("GroupAdminUpdated", 1)
+            const event1 = createGroupCreatedEvent(groupId, merkleTreeDepth, zeroValue)
+            const event2 = createGroupAdminUpdatedEvent(groupId, oldAdmin, newAdmin)
 
-        // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
-        assert.fieldEquals("GroupAdminUpdated", "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1", "groupId", "234")
-        assert.fieldEquals(
-            "GroupAdminUpdated",
-            "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-            "oldAdmin",
-            "0x0000000000000000000000000000000000000001"
-        )
-        assert.fieldEquals(
-            "GroupAdminUpdated",
-            "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-            "newAdmin",
-            "0x0000000000000000000000000000000000000001"
-        )
+            createGroup(event1)
+            updateGroupAdmin(event2)
 
-        // More assert options:
-        // https://thegraph.com/docs/en/developer/matchstick/#asserts
+            assert.entityCount("Group", 1)
+            assert.entityCount("MerkleTree", 1)
+
+            assert.fieldEquals("Group", groupId.toString(), "admin", "0x0000000000000000000000000000000000000001")
+            assert.fieldEquals("Group", groupId.toString(), "merkleTree", groupId.toString())
+
+            assert.fieldEquals("MerkleTree", groupId.toString(), "depth", "20")
+            assert.fieldEquals("MerkleTree", groupId.toString(), "zeroValue", "0")
+            assert.fieldEquals("MerkleTree", groupId.toString(), "numberOfLeaves", "0")
+            assert.fieldEquals("MerkleTree", groupId.toString(), "group", groupId.toString())
+        })
+    })
+
+    describe("# updateGroupAdmin", () => {
+        test("Should have updated a group admin", () => {
+            const groupId = BigInt.fromI32(234)
+            const oldAdmin = Address.fromString("0x0000000000000000000000000000000000000001")
+            const newAdmin = Address.fromString("0x0000000000000000000000000000000000000002")
+
+            const event = createGroupAdminUpdatedEvent(groupId, oldAdmin, newAdmin)
+
+            updateGroupAdmin(event)
+
+            assert.fieldEquals("Group", groupId.toString(), "admin", "0x0000000000000000000000000000000000000002")
+        })
+    })
+
+    describe("# addMember", () => {
+        test("Should have added a group member", () => {
+            const groupId = BigInt.fromI32(234)
+            const index = BigInt.fromI32(0)
+            const identityCommitment = BigInt.fromI32(123)
+            const merkleTreeRoot = BigInt.fromI32(999)
+            const id = hash(concat(ByteArray.fromBigInt(index), ByteArray.fromBigInt(groupId)))
+
+            const event = createMemberAddedEvent(groupId, index, identityCommitment, merkleTreeRoot)
+
+            addMember(event)
+
+            assert.entityCount("Member", 1)
+
+            assert.fieldEquals("Member", id, "index", "0")
+            assert.fieldEquals("Member", id, "identityCommitment", "123")
+            assert.fieldEquals("Member", id, "group", groupId.toString())
+
+            assert.fieldEquals("MerkleTree", groupId.toString(), "root", "999")
+            assert.fieldEquals("MerkleTree", groupId.toString(), "numberOfLeaves", "1")
+        })
+    })
+
+    describe("# updateMember", () => {
+        test("Should have added a group member", () => {
+            const groupId = BigInt.fromI32(234)
+            const index = BigInt.fromI32(0)
+            const identityCommitment = BigInt.fromI32(123)
+            const newIdentityCommitment = BigInt.fromI32(124)
+            const merkleTreeRoot = BigInt.fromI32(1000)
+            const id = hash(concat(ByteArray.fromBigInt(index), ByteArray.fromBigInt(groupId)))
+
+            const event = createMemberUpdatedEvent(
+                groupId,
+                index,
+                identityCommitment,
+                newIdentityCommitment,
+                merkleTreeRoot
+            )
+
+            updateMember(event)
+
+            assert.fieldEquals("Member", id, "identityCommitment", "124")
+
+            assert.fieldEquals("MerkleTree", groupId.toString(), "root", "1000")
+        })
+    })
+
+    describe("# removeMember", () => {
+        test("Should have removed a group member", () => {
+            const groupId = BigInt.fromI32(234)
+            const index = BigInt.fromI32(0)
+            const identityCommitment = BigInt.fromI32(123)
+            const merkleTreeRoot = BigInt.fromI32(1001)
+            const id = hash(concat(ByteArray.fromBigInt(index), ByteArray.fromBigInt(groupId)))
+
+            const event = createMemberRemovedEvent(groupId, index, identityCommitment, merkleTreeRoot)
+
+            removeMember(event)
+
+            assert.fieldEquals("Member", id, "identityCommitment", "0")
+
+            assert.fieldEquals("MerkleTree", groupId.toString(), "root", "1001")
+        })
+    })
+
+    describe("# addVerifiedProof", () => {
+        test("Should have added a proof", () => {
+            const groupId = BigInt.fromI32(234)
+            const merkleTreeRoot = BigInt.fromI32(1001)
+            const externalNullifier = BigInt.fromI32(1)
+            const nullifierHash = BigInt.fromI32(666)
+            const signal = BigInt.fromI32(2)
+            const id = hash(concat(ByteArray.fromBigInt(nullifierHash), ByteArray.fromBigInt(groupId)))
+
+            const event = createProofVerifiedEvent(groupId, merkleTreeRoot, externalNullifier, nullifierHash, signal)
+
+            addVerifiedProof(event)
+
+            assert.entityCount("VerifiedProof", 1)
+
+            assert.fieldEquals("VerifiedProof", id, "merkleTreeRoot", "1001")
+            assert.fieldEquals("VerifiedProof", id, "externalNullifier", "1")
+            assert.fieldEquals("VerifiedProof", id, "nullifierHash", "666")
+            assert.fieldEquals("VerifiedProof", id, "signal", "2")
+            assert.fieldEquals("VerifiedProof", id, "group", groupId.toString())
+        })
     })
 })
