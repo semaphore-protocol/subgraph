@@ -11,9 +11,9 @@ import {
 } from "../generated/Semaphore/Semaphore"
 
 export function createGroupCreatedEvent(groupId: BigInt, merkleTreeDepth: BigInt, zeroValue: BigInt): GroupCreated {
-    let groupCreatedEvent = changetype<GroupCreated>(newMockEvent())
+    const groupCreatedEvent = changetype<GroupCreated>(newMockEvent())
 
-    groupCreatedEvent.parameters = new Array()
+    groupCreatedEvent.parameters = []
 
     groupCreatedEvent.parameters.push(new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId)))
     groupCreatedEvent.parameters.push(
@@ -27,9 +27,9 @@ export function createGroupCreatedEvent(groupId: BigInt, merkleTreeDepth: BigInt
 }
 
 export function createGroupAdminUpdatedEvent(groupId: BigInt, oldAdmin: Address, newAdmin: Address): GroupAdminUpdated {
-    let groupAdminUpdatedEvent = changetype<GroupAdminUpdated>(newMockEvent())
+    const groupAdminUpdatedEvent = changetype<GroupAdminUpdated>(newMockEvent())
 
-    groupAdminUpdatedEvent.parameters = new Array()
+    groupAdminUpdatedEvent.parameters = []
 
     groupAdminUpdatedEvent.parameters.push(
         new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId))
@@ -45,9 +45,9 @@ export function createGroupMerkleTreeDurationUpdatedEvent(
     oldMerkleTreeDuration: BigInt,
     newMerkleTreeDuration: BigInt
 ): GroupMerkleTreeDurationUpdated {
-    let groupMerkleTreeDurationUpdatedEvent = changetype<GroupMerkleTreeDurationUpdated>(newMockEvent())
+    const groupMerkleTreeDurationUpdatedEvent = changetype<GroupMerkleTreeDurationUpdated>(newMockEvent())
 
-    groupMerkleTreeDurationUpdatedEvent.parameters = new Array()
+    groupMerkleTreeDurationUpdatedEvent.parameters = []
 
     groupMerkleTreeDurationUpdatedEvent.parameters.push(
         new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId))
@@ -68,9 +68,9 @@ export function createMemberAddedEvent(
     identityCommitment: BigInt,
     merkleTreeRoot: BigInt
 ): MemberAdded {
-    let memberAddedEvent = changetype<MemberAdded>(newMockEvent())
+    const memberAddedEvent = changetype<MemberAdded>(newMockEvent())
 
-    memberAddedEvent.parameters = new Array()
+    memberAddedEvent.parameters = []
 
     memberAddedEvent.parameters.push(new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId)))
     memberAddedEvent.parameters.push(new ethereum.EventParam("index", ethereum.Value.fromUnsignedBigInt(index)))
@@ -90,9 +90,9 @@ export function createMemberRemovedEvent(
     identityCommitment: BigInt,
     merkleTreeRoot: BigInt
 ): MemberRemoved {
-    let memberRemovedEvent = changetype<MemberRemoved>(newMockEvent())
+    const memberRemovedEvent = changetype<MemberRemoved>(newMockEvent())
 
-    memberRemovedEvent.parameters = new Array()
+    memberRemovedEvent.parameters = []
 
     memberRemovedEvent.parameters.push(new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId)))
     memberRemovedEvent.parameters.push(new ethereum.EventParam("index", ethereum.Value.fromUnsignedBigInt(index)))
@@ -113,9 +113,9 @@ export function createMemberUpdatedEvent(
     newIdentityCommitment: BigInt,
     merkleTreeRoot: BigInt
 ): MemberUpdated {
-    let memberUpdatedEvent = changetype<MemberUpdated>(newMockEvent())
+    const memberUpdatedEvent = changetype<MemberUpdated>(newMockEvent())
 
-    memberUpdatedEvent.parameters = new Array()
+    memberUpdatedEvent.parameters = []
 
     memberUpdatedEvent.parameters.push(new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId)))
     memberUpdatedEvent.parameters.push(new ethereum.EventParam("index", ethereum.Value.fromUnsignedBigInt(index)))
@@ -139,9 +139,9 @@ export function createProofVerifiedEvent(
     nullifierHash: BigInt,
     signal: BigInt
 ): ProofVerified {
-    let proofVerifiedEvent = changetype<ProofVerified>(newMockEvent())
+    const proofVerifiedEvent = changetype<ProofVerified>(newMockEvent())
 
-    proofVerifiedEvent.parameters = new Array()
+    proofVerifiedEvent.parameters = []
 
     proofVerifiedEvent.parameters.push(new ethereum.EventParam("groupId", ethereum.Value.fromUnsignedBigInt(groupId)))
     proofVerifiedEvent.parameters.push(
