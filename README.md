@@ -112,7 +112,7 @@ yarn codegen
 
 ### Authorization
 
-Set the authorisation code that links your account on thegraph.com:
+Set the authorization code that links your account on thegraph.com:
 
 ```bash
 yarn auth <access-token>
