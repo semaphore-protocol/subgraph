@@ -58,7 +58,8 @@
 | v2.0              | N/A                                                                                                               | [semaphore-protocol/arbitrum](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum)               |
 | v2.5              | [semaphore-protocol/goerli](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli)               | N/A                                                                                                                   |
 | v2.6              | [semaphore-protocol/goerli-5259d3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-5259d3) | [semaphore-protocol/arbitrum-86337c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-86337c) |
-| v3                | [semaphore-protocol/goerli-89490c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-89490c) | [semaphore-protocol/arbitrum-72dca3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-72dca3) |
+| v3.x              | [semaphore-protocol/goerli-89490c](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/goerli-89490c) | [semaphore-protocol/arbitrum-72dca3](https://thegraph.com/hosted-service/subgraph/semaphore-protocol/arbitrum-72dca3) |
+| v3.2              | [semaphore-goerli](https://api.studio.thegraph.com/query/14377/semaphore-goerli/v3.2.0)                           | [semaphore-arbitrum](https://api.studio.thegraph.com/query/14377/semaphore-arbitrum/v3.2.0)                           |
 
 ## 🛠 Install
 
@@ -80,7 +81,7 @@ The subgraph definition consists of a few files:
 
 -   `subgraph.template.yaml`: a YAML file containing the subgraph manifest,
 -   `schema.graphql`: a GraphQL schema that defines what data is stored for the subgraph, and how to query it via GraphQL,
--   `src/mappings.ts`: AssemblyScript code that translates from the event data to the entities defined in the schema.
+-   `src/semaphore.ts`: AssemblyScript code that translates from the event data to the entities defined in the schema.
 
 ### Code quality and formatting
 
@@ -107,10 +108,22 @@ yarn prettier:write
 Generate AssemblyScript types for the subgraph (required every time the schema changes):
 
 ```bash
-yarn codegen
+yarn codegen <network>
 ```
 
-### Authorization
+It also generates a `subgraph.yaml` file for your specific network.
+
+### Testing
+
+After generating the types and `subgraph.yaml` file, test your subgraph:
+
+```bash
+yarn test
+```
+
+### Deployment
+
+## TheGraph Studio
 
 Set the authorization code that links your account on thegraph.com:
 
@@ -118,43 +131,37 @@ Set the authorization code that links your account on thegraph.com:
 yarn auth <access-token>
 ```
 
-### Deploy
-
-Deploy the subgraph to the [hosted service](https://thegraph.com/docs/hostedservice/deploy-subgraph-hosted):
+Deploy the subgraph to the [TheGraph Studio](https://thegraph.com/studio/):
 
 ```bash
-yarn deploy:goerli semaphore-protocol/goerli-5259d3
-// or
-yarn deploy:arbitrum semaphore-protocol/arbitrum-86337c
+yarn deploy <subgraph-name>
 ```
 
-### Local Development
-
-This is a guide to run TheGraph node locally and build subgraphs based on events from local Ethereum network (like hardhat).
+## Local
 
 Start services required for TheGraph node by running:
 
-```sh
-docker-compose -f docker-compose-graph.yml up
+```bash
+docker compose -f docker-compose-graph.yml up
 ```
 
-Start local hardhat node and deploy Sempahore contract:
+Start a local Hardhat node and deploy the [Semaphore contract](https://github.com/semaphore-protocol/semaphore/tree/main/packages/contracts):
 
-```sh
+```bash
 # CWD = /semaphore/packages/contracts
-npx hardhat node
+yarn start
 yarn deploy:semaphore --network localhost
 ```
 
-You can now set the deployed contract address in the subgraph.yaml file. Make sure the network is set as `localhost`.
+Create the `subgraph.yaml` file for your local network and create/deploy your subgraph:
 
-Once subgraph is ready to be published, run the below command to push it to the local TheGraph node:
-
-```sh
+```bash
+yarn codegen localhost
+yarn create-local
 yarn deploy-local
 ```
 
-Once the subgraph is published it will start indexing. You can query the subgraph using the GraphQL endpoint:
+Once the subgraph is published it will start indexing. You can query the subgraph using the following GraphQL endpoint:
 
 ```
 http://127.0.0.1:8000/subgraphs/name/sempahore/graphql

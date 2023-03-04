@@ -1,19 +1,17 @@
-specVersion: 0.0.4
-description: Semaphore subgraph definition (The Graph).
-repository: https://github.com/semaphore-protocol/subgraph
+specVersion: 0.0.5
 schema:
     file: ./schema.graphql
 dataSources:
-    - kind: ethereum/contract
+    - kind: ethereum
       name: Semaphore
       network: {{ network }}
       source:
-          address: "{{address}}"
+          address: "{{ address }}"
           abi: Semaphore
           startBlock: {{ startBlock }}
       mapping:
           kind: ethereum/events
-          apiVersion: 0.0.5
+          apiVersion: 0.0.7
           language: wasm/assemblyscript
           entities:
               - Group
@@ -34,4 +32,4 @@ dataSources:
                 handler: removeMember
               - event: ProofVerified(indexed uint256,indexed uint256,indexed uint256,uint256,uint256)
                 handler: addVerifiedProof
-          file: ./src/mapping.ts
+          file: ./src/semaphore.ts

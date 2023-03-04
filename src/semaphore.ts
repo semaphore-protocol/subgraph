@@ -162,7 +162,7 @@ export function addVerifiedProof(event: ProofVerified): void {
 
     if (group) {
         const verifiedProofId = hash(
-            concat(ByteArray.fromBigInt(event.block.timestamp), ByteArray.fromBigInt(event.params.signal))
+            concat(ByteArray.fromBigInt(event.params.nullifierHash), ByteArray.fromBigInt(event.params.groupId))
         )
 
         const verifiedProof = new VerifiedProof(verifiedProofId)

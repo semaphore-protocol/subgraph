@@ -1,0 +1,20 @@
+{
+    "goerli": {
+        "Semaphore": {
+            "address": "0x89490c95eD199D980Cdb4FF8Bac9977EDb41A7E7",
+            "startBlock": 8255063
+        }
+    },
+    "arbitrum-one": {
+        "Semaphore": {
+            "address": "0x72dca3c971136bf47BACF16A141f0fcfAC925aeC",
+            "startBlock": 54934350
+        }
+    },
+    "localhost": {
+        "Semaphore": {
+            "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+            "startBlock": 0
+        }
+    }
+}

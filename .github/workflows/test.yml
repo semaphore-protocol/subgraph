@@ -1,4 +1,4 @@
-name: style
+name: test
 
 on:
     pull_request:
@@ -37,8 +37,8 @@ jobs:
             - name: Generate AssemblyScript types
               run: yarn codegen goerli
 
-            - name: Run Prettier
-              run: yarn prettier
+            - name: Build subgraph
+              run: yarn build
 
-            - name: Run Eslint
-              run: yarn lint
+            - name: Test subgraph
+              run: yarn test
