@@ -81,7 +81,7 @@ The subgraph definition consists of a few files:
 
 -   `subgraph.template.yaml`: a YAML file containing the subgraph manifest,
 -   `schema.graphql`: a GraphQL schema that defines what data is stored for the subgraph, and how to query it via GraphQL,
--   `src/mappings.ts`: AssemblyScript code that translates from the event data to the entities defined in the schema.
+-   `src/semaphore.ts`: AssemblyScript code that translates from the event data to the entities defined in the schema.
 
 ### Code quality and formatting
 
@@ -111,6 +111,16 @@ Generate AssemblyScript types for the subgraph (required every time the schema c
 yarn codegen <network>
 ```
 
+It also generates a `subgraph.yaml` file for your specific network.
+
+### Testing
+
+After generating the types and `subgraph.yaml` file, test your subgraph:
+
+```bash
+yarn test
+```
+
 ### Authorization
 
 Set the authorization code that links your account on thegraph.com:
@@ -119,7 +129,7 @@ Set the authorization code that links your account on thegraph.com:
 yarn auth <access-token>
 ```
 
-### Deploy
+### Deployment
 
 Deploy the subgraph to the [TheGraph Studio](https://thegraph.com/studio/):
 
