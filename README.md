@@ -123,7 +123,7 @@ yarn test
 
 ### Deployment
 
-## TheGraph Studio
+#### TheGraph Studio
 
 Set the authorization code that links your account on thegraph.com:
 
@@ -137,7 +137,7 @@ Deploy the subgraph to the [TheGraph Studio](https://thegraph.com/studio/):
 yarn deploy <subgraph-name>
 ```
 
-## Local
+#### Local
 
 Start services required for TheGraph node by running:
 
