@@ -121,7 +121,9 @@ After generating the types and `subgraph.yaml` file, test your subgraph:
 yarn test
 ```
 
-### Authorization
+### Deployment
+
+## TheGraph Studio
 
 Set the authorization code that links your account on thegraph.com:
 
@@ -129,10 +131,38 @@ Set the authorization code that links your account on thegraph.com:
 yarn auth <access-token>
 ```
 
-### Deployment
-
 Deploy the subgraph to the [TheGraph Studio](https://thegraph.com/studio/):
 
 ```bash
 yarn deploy <subgraph-name>
+```
+
+## Local
+
+Start services required for TheGraph node by running:
+
+```bash
+docker compose -f docker-compose-graph.yml up
+```
+
+Start a local Hardhat node and deploy the [Semaphore contract](https://github.com/semaphore-protocol/semaphore/tree/main/packages/contracts):
+
+```bash
+# CWD = /semaphore/packages/contracts
+yarn start
+yarn deploy:semaphore --network localhost
+```
+
+Create the `subgraph.yaml` file for your local network and create/deploy your subgraph:
+
+```bash
+yarn codegen localhost
+yarn create-local
+yarn deploy-local
+```
+
+Once the subgraph is published it will start indexing. You can query the subgraph using the following GraphQL endpoint:
+
+```
+http://127.0.0.1:8000/subgraphs/name/sempahore/graphql
 ```
