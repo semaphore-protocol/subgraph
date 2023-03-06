@@ -31,7 +31,7 @@ services:
         ports:
             - "5001:5001"
         volumes:
-            - ipfs:/data/ipfs
+            - graph-ipfs:/data/ipfs
         networks:
             - the-graph
 
@@ -44,10 +44,11 @@ services:
             POSTGRES_USER: graph-node
             POSTGRES_PASSWORD: let-me-in
             POSTGRES_DB: graph-node
+            POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
         networks:
             - the-graph
         volumes:
-            - postgres:/var/lib/postgresql/data
+            - graph-postgres:/var/lib/postgresql/data
 
 networks:
     the-graph:
@@ -55,5 +56,5 @@ networks:
         driver: bridge
 
 volumes:
-    postgres:
-    ipfs:
+    graph-postgres:
+    graph-ipfs:
