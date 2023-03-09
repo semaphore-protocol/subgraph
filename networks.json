@@ -11,6 +11,12 @@
             "startBlock": 32902215
         }
     },
+    "optimism-goerli": {
+        "Semaphore": {
+            "address": "0x220fBdB6F996827b1Cf12f0C181E8d5e6de3a36F",
+            "startBlock": 6477953
+        }
+    },
     "arbitrum-one": {
         "Semaphore": {
             "address": "0x72dca3c971136bf47BACF16A141f0fcfAC925aeC",
