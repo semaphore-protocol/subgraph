@@ -5,6 +5,12 @@
             "startBlock": 8255063
         }
     },
+    "mumbai": {
+        "Semaphore": {
+            "address": "0xF864ABa335073e01234c9a88888BfFfa965650bD",
+            "startBlock": 32902215
+        }
+    },
     "arbitrum-one": {
         "Semaphore": {
             "address": "0x72dca3c971136bf47BACF16A141f0fcfAC925aeC",
