@@ -17,6 +17,12 @@
             "startBlock": 6477953
         }
     },
+    "arbitrum-goerli": {
+        "Semaphore": {
+            "address": "0xbE66454b0Fa9E6b3D53DC1b0f9D21978bb864531",
+            "startBlock": 11902029
+        }
+    },
     "arbitrum-one": {
         "Semaphore": {
             "address": "0x72dca3c971136bf47BACF16A141f0fcfAC925aeC",
