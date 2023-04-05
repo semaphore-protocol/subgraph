@@ -1,32 +1,32 @@
 {
     "goerli": {
         "Semaphore": {
-            "address": "0x89490c95eD199D980Cdb4FF8Bac9977EDb41A7E7",
-            "startBlock": 8255063
+            "address": "0x3889927F0B5Eb1a02C6E2C20b39a1Bd4EAd76131",
+            "startBlock": 8777695
         }
     },
     "mumbai": {
         "Semaphore": {
-            "address": "0xF864ABa335073e01234c9a88888BfFfa965650bD",
-            "startBlock": 32902215
+            "address": "0x3889927F0B5Eb1a02C6E2C20b39a1Bd4EAd76131",
+            "startBlock": 33995010
         }
     },
     "optimism-goerli": {
         "Semaphore": {
-            "address": "0x220fBdB6F996827b1Cf12f0C181E8d5e6de3a36F",
-            "startBlock": 6477953
+            "address": "0x3889927F0B5Eb1a02C6E2C20b39a1Bd4EAd76131",
+            "startBlock": 7632846
         }
     },
     "arbitrum-goerli": {
         "Semaphore": {
-            "address": "0xbE66454b0Fa9E6b3D53DC1b0f9D21978bb864531",
-            "startBlock": 11902029
+            "address": "0x3889927F0B5Eb1a02C6E2C20b39a1Bd4EAd76131",
+            "startBlock": 15174410
         }
     },
     "arbitrum-one": {
         "Semaphore": {
-            "address": "0x72dca3c971136bf47BACF16A141f0fcfAC925aeC",
-            "startBlock": 54934350
+            "address": "0xc60E0Ee1a2770d5F619858C641f14FC4a6401520",
+            "startBlock": 77278430
         }
     },
     "localhost": {
