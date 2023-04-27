@@ -148,11 +148,12 @@ export function createProofVerifiedEvent(
         new ethereum.EventParam("merkleTreeRoot", ethereum.Value.fromUnsignedBigInt(merkleTreeRoot))
     )
     proofVerifiedEvent.parameters.push(
-        new ethereum.EventParam("externalNullifier", ethereum.Value.fromUnsignedBigInt(externalNullifier))
-    )
-    proofVerifiedEvent.parameters.push(
         new ethereum.EventParam("nullifierHash", ethereum.Value.fromUnsignedBigInt(nullifierHash))
     )
+    proofVerifiedEvent.parameters.push(
+        new ethereum.EventParam("externalNullifier", ethereum.Value.fromUnsignedBigInt(externalNullifier))
+    )
+
     proofVerifiedEvent.parameters.push(new ethereum.EventParam("signal", ethereum.Value.fromUnsignedBigInt(signal)))
 
     return proofVerifiedEvent
