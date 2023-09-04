@@ -20,8 +20,8 @@
         "commit": "cz"
     },
     "dependencies": {
-        "@graphprotocol/graph-cli": "0.42.3",
-        "@graphprotocol/graph-ts": "^0.29.3"
+        "@graphprotocol/graph-cli": "0.56.0",
+        "@graphprotocol/graph-ts": "^0.31.0"
     },
     "devDependencies": {
         "@commitlint/cli": "^13.1.0",
