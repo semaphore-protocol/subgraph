@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> The Semaphore subgraph was moved to the main monorepo: [subgraph](https://github.com/semaphore-protocol/semaphore/tree/main/apps/subgraph) (inside the `apps` folder).
+
 <h1 align="center">
     Semaphore Subgraph
 </h1>
